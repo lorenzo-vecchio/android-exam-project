@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidexamproject.controller.ProductModel;
@@ -21,9 +22,11 @@ import java.util.ArrayList;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductViewHolder> {
     private final ArrayList<ProductModel> products;
+    private SelectListener listener;
 
-    public ProductsAdapter(ArrayList<ProductModel> products) {
+    public ProductsAdapter(ArrayList<ProductModel> products, SelectListener listener) {
         this.products = products;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,7 +39,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.bind(products.get(position));
+        holder.bind(products.get(position), listener);
     }
 
     @Override
@@ -45,6 +48,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
+        private final ConstraintLayout productCard;
         private final TextView title;
         private final TextView brand;
         private final TextView description;
@@ -53,7 +57,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            productCard = itemView.findViewById(R.id.productCard);
             title = itemView.findViewById(R.id.title);
             brand = itemView.findViewById(R.id.brand);
             description = itemView.findViewById(R.id.description);
@@ -61,7 +65,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             progressBar = itemView.findViewById(R.id.progressBar);
         }
 
-        public void bind(ProductModel product) {
+        public void bind(ProductModel product, SelectListener listener) {
             title.setText(product.title);
             brand.setText(product.brand);
             description.setText(product.description);
@@ -79,6 +83,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
                             e.printStackTrace();
                         }
                     });
+            productCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClicked(product);
+                }
+            });
         }
     }
 }

@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         fragmentManager.beginTransaction().replace(R.id.flFragment, Products.class, null)
                 .setReorderingAllowed(true).commit();
 

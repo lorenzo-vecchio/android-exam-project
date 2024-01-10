@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.androidexamproject.adapters.ProductsAdapter;
+import com.example.androidexamproject.adapters.SelectListener;
 import com.example.androidexamproject.controller.ProductModel;
 import com.example.androidexamproject.controller.ProductsAsyncResponse;
 import com.example.androidexamproject.controller.Store;
@@ -46,7 +48,17 @@ public class Products extends Fragment {
                 RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                ProductsAdapter productsAdapter = new ProductsAdapter(products);
+                ProductsAdapter productsAdapter = new ProductsAdapter(products, new SelectListener() {
+                    @Override
+                    public void onItemClicked(ProductModel product) {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.flFragment, new Product(product), null)
+                                .addToBackStack(null)
+                                .setReorderingAllowed(true)
+                                .commit();
+                    }
+                });
                 recyclerView.setAdapter(productsAdapter);
                 progressBar.setVisibility(View.GONE);
                 loadingText.setVisibility(View.GONE);
