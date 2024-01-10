@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -40,16 +42,21 @@ public class Products extends Fragment {
             @Override
             public void onSuccess(ArrayList<ProductModel> products) {
                 ProgressBar progressBar = view.findViewById(R.id.progressBar);
+                TextView loadingText = view.findViewById(R.id.loadingText);
                 RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(layoutManager);
                 ProductsAdapter productsAdapter = new ProductsAdapter(products);
                 recyclerView.setAdapter(productsAdapter);
                 progressBar.setVisibility(View.GONE);
+                loadingText.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Exception e) {
-                Log.d("Errore", "ERROREEEEEEEEE");
+                Log.d("Errore", e.getMessage());
+                e.printStackTrace();
             }
         });
 

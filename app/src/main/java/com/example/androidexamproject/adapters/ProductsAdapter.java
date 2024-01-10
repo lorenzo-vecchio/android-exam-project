@@ -1,8 +1,11 @@
 package com.example.androidexamproject.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidexamproject.controller.ProductModel;
 import com.example.androidexamproject.R;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NonNls;
 
@@ -44,6 +48,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         private final TextView title;
         private final TextView brand;
         private final TextView description;
+        private final ImageView thumbnail;
+        private final ProgressBar progressBar;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,12 +57,28 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             title = itemView.findViewById(R.id.title);
             brand = itemView.findViewById(R.id.brand);
             description = itemView.findViewById(R.id.description);
+            thumbnail = itemView.findViewById(R.id.thumbnail);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
 
         public void bind(ProductModel product) {
             title.setText(product.title);
             brand.setText(product.brand);
             description.setText(product.description);
+            Picasso.get()
+                    .load(product.thumbnail)
+                    .into(thumbnail, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar.setVisibility(View.GONE);
+                            thumbnail.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onError(Exception e) {
+                            Log.d("Errore", e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
         }
     }
 }
