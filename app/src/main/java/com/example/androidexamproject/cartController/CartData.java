@@ -10,7 +10,7 @@ public class CartData {
     private CartData() {
         cartItems = new ArrayList<>();
     }
-    public static synchronized CartData getInstance() {
+    public static synchronized CartData getCartInstance() {
         if (instance == null) {
             instance = new CartData();
         }
@@ -22,10 +22,34 @@ public class CartData {
     public void addProduct(ProductModel product) {
         cartItems.add(product);
     }
-    public void removeProduct(int id) {
-        cartItems.remove(id);
-    }
     public void removeProduct(ProductModel product) {
-        cartItems.remove(product);
+        for (ProductModel item : cartItems) {
+            if(item.id == product.id) {
+                cartItems.remove(item);
+            }
+        }
+    }
+    public boolean checkIfProductInside(ProductModel product) {
+        for (ProductModel item : cartItems) {
+            if(item.id == product.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public double getTotal() {
+        double total = 0;
+        for (ProductModel item : cartItems) {
+            total += item.price;
+        }
+        return total;
+    }
+    public double getDiscountedTotal() {
+        double total = 0;
+        for(ProductModel item : cartItems) {
+            double discountedPrice = (double) item.price / 100 * (100 - item.discountPercentage);
+            total += discountedPrice;
+        }
+        return total;
     }
 }

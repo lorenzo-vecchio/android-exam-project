@@ -40,4 +40,10 @@ dependencies {
     implementation("com.google.android.material:material:1.2.0")
     implementation ("com.android.volley:volley:1.2.0")
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    // Material Components for Android. Replace the version with the latest version of Material Components library.
+    implementation("com.google.android.material:material:1.5.0")
+    // Circle Indicator (To fix the xml preview "Missing classes" error)
+    implementation("me.relex:circleindicator:2.1.6")
+    implementation("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
 }
