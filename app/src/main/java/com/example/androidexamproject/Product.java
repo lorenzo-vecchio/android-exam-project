@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.imaginativeworld.whynotimagecarousel.ImageCarousel;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Product extends Fragment {
@@ -53,9 +54,10 @@ public class Product extends Fragment {
         TextView description = view.findViewById(R.id.description);
         title.setText(product.title);
         brand.setText(product.brand);
-        ogPrice.setText("Original price: " + product.price + "$");
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        ogPrice.setText("Original price: " + String.format("%.2f", Double.parseDouble(decimalFormat.format(product.price))) + "$");
         discount.setText("Discount: " + product.discountPercentage + "%");
-        discountedPrice.setText("Best price: " + (product.price / 100 * (100 - product.discountPercentage)) + "$");
+        discountedPrice.setText("Best price: " + Double.parseDouble(decimalFormat.format((product.price / 100 * (100 - product.discountPercentage)))) + "$");
         description.setText(product.description);
 
         if(product.discountPercentage == 0.0) {

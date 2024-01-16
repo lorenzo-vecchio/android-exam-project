@@ -20,6 +20,8 @@ import com.example.androidexamproject.adapters.SelectListener;
 import com.example.androidexamproject.cartController.CartData;
 import com.example.androidexamproject.controller.ProductModel;
 
+import java.text.DecimalFormat;
+
 public class Cart extends Fragment {
 
     public Cart() {
@@ -55,8 +57,9 @@ public class Cart extends Fragment {
         TextView dsTotal = view.findViewById(R.id.discountedPrice);
         double tot = CartData.getCartInstance().getTotal();
         double dsTot = CartData.getCartInstance().getDiscountedTotal();
-        total.setText("Totale: " + tot + "$");
-        dsTotal.setText("Totale scontato: " + dsTot + "$");
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        total.setText("Totale: " + Double.parseDouble(decimalFormat.format(tot)) + "$");
+        dsTotal.setText("Totale scontato: " + Double.parseDouble(decimalFormat.format(dsTot)) + "$");
     }
 
     @Override
