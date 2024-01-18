@@ -26,6 +26,7 @@ public class CartData {
         for (ProductModel item : cartItems) {
             if(item.id == product.id) {
                 cartItems.remove(item);
+                break;
             }
         }
     }
